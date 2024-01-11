@@ -57,6 +57,7 @@ $(call force,CFG_DRIVERS_CLK,y)
 $(call force,CFG_DRIVERS_CLK_DT,y)
 $(call force,CFG_DRIVERS_GPIO,y)
 $(call force,CFG_DRIVERS_PINCTRL,y)
+$(call force,CFG_DRIVERS_REGULATOR,y)
 $(call force,CFG_DT,y)
 $(call force,CFG_GIC,y)
 $(call force,CFG_HALT_CORES_SGI,15)
@@ -119,6 +120,8 @@ CFG_STM32_TAMP ?= y
 CFG_STM32_UART ?= y
 
 CFG_DRIVERS_I2C ?= $(CFG_STM32_I2C)
+CFG_REGULATOR_FIXED ?= y
+CFG_REGULATOR_GPIO ?= y
 
 # Default RTC accuracy, higher accuracy means higher power consumption
 CFG_STM32_RTC_HIGH_ACCURACY ?= n
@@ -127,6 +130,7 @@ CFG_SCMI_PTA ?= y
 CFG_SCMI_SCPFW ?= y
 CFG_SCMI_SCPFW_FROM_DT ?= y
 CFG_SCMI_SERVER_CLOCK_CONSUMER ?= y
+CFG_SCMI_SERVER_REGULATOR_CONSUMER ?= y
 CFG_SCMI_SERVER_RESET_CONSUMER ?= y
 # Default enable some test facitilites
 CFG_ENABLE_EMBEDDED_TESTS ?= y
