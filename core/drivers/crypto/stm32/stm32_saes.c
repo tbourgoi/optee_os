@@ -143,6 +143,7 @@ static struct mutex saes_lock = MUTEX_INITIALIZER;
 static struct stm32_saes_platdata {
 	vaddr_t base;
 	struct clk *clk;
+	struct clk *clk_rng;
 	struct rstctrl *reset;
 } saes_pdata;
 
@@ -1364,10 +1365,6 @@ static TEE_Result stm32_saes_parse_fdt(struct stm32_saes_platdata *pdata,
 	    dt_saes.reg_size == DT_INFO_INVALID_REG_SIZE)
 		return TEE_ERROR_BAD_PARAMETERS;
 
-	res = clk_dt_get_by_index(fdt, node, 0, &pdata->clk);
-	if (res != TEE_SUCCESS)
-		return res;
-
 	res = rstctrl_dt_get_by_index(fdt, node, 0, &pdata->reset);
 	if (res != TEE_SUCCESS && res != TEE_ERROR_ITEM_NOT_FOUND)
 		return res;
@@ -1377,7 +1374,11 @@ static TEE_Result stm32_saes_parse_fdt(struct stm32_saes_platdata *pdata,
 	if (!pdata->base)
 		panic();
 
-	return TEE_SUCCESS;
+	res = clk_dt_get_by_name(fdt, node, "bus", &pdata->clk);
+	if (res)
+		return res;
+
+	return clk_dt_get_by_name(fdt, node, "rng", &pdata->clk_rng);
 }
 
 static void stm32_saes_reset(void)
@@ -1435,7 +1436,7 @@ static TEE_Result stm32_saes_probe(const void *fdt, int node,
 	if (res)
 		return res;
 
-	if (clk_enable(saes_pdata.clk))
+	if (clk_enable(saes_pdata.clk) || clk_enable(saes_pdata.clk_rng))
 		panic();
 
 	stm32_saes_reset();
