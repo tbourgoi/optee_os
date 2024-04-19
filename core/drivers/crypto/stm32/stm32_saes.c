@@ -1406,10 +1406,12 @@ static TEE_Result stm32_saes_pm(enum pm_op op, uint32_t pm_hint,
 	switch (op) {
 	case PM_OP_SUSPEND:
 		clk_disable(saes_pdata.clk);
+		clk_disable(saes_pdata.clk_rng);
 		return TEE_SUCCESS;
 
 	case PM_OP_RESUME:
-		if (clk_enable(saes_pdata.clk))
+		if (clk_enable(saes_pdata.clk) ||
+		    clk_enable(saes_pdata.clk_rng))
 			panic();
 
 		if (PM_HINT_IS_STATE(pm_hint, CONTEXT))
