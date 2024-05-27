@@ -136,6 +136,7 @@ $(call force,CFG_STM32MP13_REGULATOR_IOD,y)
 $(call force,CFG_TEE_CORE_NB_CORE,1)
 $(call force,CFG_WITH_NSEC_GPIOS,n)
 CFG_EXTERNAL_DT ?= n
+CFG_STM32_CRYP ?= n
 CFG_STM32MP_OPP_COUNT ?= 2
 CFG_WITH_PAGER ?= n
 endif # CFG_STM32MP13
@@ -253,7 +254,7 @@ endif
 # If CRYP and SAES are enable on STMP32MP13, disable CRYP for safety purpose
 ifeq ($(CFG_STM32MP13),y)
 ifeq ($(call cfg-all-enabled, CFG_STM32_CRYP CFG_STM32_SAES), y)
-override CFG_STM32_CRYP := n
+$(error OP-TEE Crypto framework cannot register both SAES and CRYP)
 endif # cfg-all-enabled, CFG_STM32_CRYP CFG_STM32_SAES
 endif # CFG_STM32MP13
 
