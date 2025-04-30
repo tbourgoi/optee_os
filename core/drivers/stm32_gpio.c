@@ -781,7 +781,6 @@ static TEE_Result stm32_gpio_get_dt(struct dt_pargs *pargs, void *data,
 	uint32_t exceptions = 0;
 	uint32_t otype = 0;
 	uint32_t pupd = 0;
-	uint32_t mode = 0;
 
 	consumer_name = fdt_get_name(pargs->fdt, pargs->consumer_node,
 				     NULL);
@@ -869,10 +868,6 @@ static TEE_Result stm32_gpio_get_dt(struct dt_pargs *pargs, void *data,
 	if (clk_enable(bank->clock))
 		panic();
 	exceptions = cpu_spin_lock_xsave(&gpio_lock);
-
-	io_clrsetbits32(bank->base + GPIO_MODER_OFFSET,
-			SHIFT_U32(GPIO_MODE_MASK, shift_2b),
-			SHIFT_U32(mode, shift_2b));
 
 	io_clrsetbits32(bank->base + GPIO_OTYPER_OFFSET,
 			SHIFT_U32(GPIO_OTYPE_OPEN_DRAIN, shift_1b),
