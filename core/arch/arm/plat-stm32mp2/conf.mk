@@ -57,6 +57,7 @@ $(call force,CFG_DRIVERS_CLK,y)
 $(call force,CFG_DRIVERS_CLK_DT,y)
 $(call force,CFG_DRIVERS_GPIO,y)
 $(call force,CFG_DRIVERS_PINCTRL,y)
+$(call force,CFG_DRIVERS_REGULATOR,y)
 $(call force,CFG_DT,y)
 $(call force,CFG_GIC,y)
 $(call force,CFG_HALT_CORES_SGI,15)
@@ -65,6 +66,8 @@ $(call force,CFG_SCMI_SCPFW_PRODUCT,stm32mp2)
 $(call force,CFG_SECURE_TIME_SOURCE_CNTPCT,y)
 $(call force,CFG_STM32_SHARED_IO,y)
 $(call force,CFG_STM32_STGEN,y)
+$(call force,CFG_STM32_PWR,y)
+$(call force,CFG_STM32_PWR_REGUL,y)
 $(call force,CFG_STM32MP_CLK_CORE,y)
 $(call force,CFG_WITH_ARM_TRUSTED_FW,y)
 $(call force,CFG_WITH_LPAE,y)
@@ -117,8 +120,11 @@ CFG_STM32_RTC ?= y
 CFG_STM32_SERC ?= y
 CFG_STM32_TAMP ?= y
 CFG_STM32_UART ?= y
+CFG_STPMIC2 ?= y
 
 CFG_DRIVERS_I2C ?= $(CFG_STM32_I2C)
+CFG_REGULATOR_FIXED ?= y
+CFG_REGULATOR_GPIO ?= y
 
 # Default RTC accuracy, higher accuracy means higher power consumption
 CFG_STM32_RTC_HIGH_ACCURACY ?= n
@@ -127,8 +133,11 @@ CFG_SCMI_PTA ?= y
 CFG_SCMI_SCPFW ?= y
 CFG_SCMI_SCPFW_FROM_DT ?= y
 CFG_SCMI_SERVER_CLOCK_CONSUMER ?= y
+CFG_SCMI_SERVER_REGULATOR_CONSUMER ?= y
 CFG_SCMI_SERVER_RESET_CONSUMER ?= y
 # Default enable some test facitilites
+CFG_DRIVERS_CLK_PRINT_TREE ?= y
+CFG_DRIVERS_REGULATOR_PRINT_TREE ?= y
 CFG_ENABLE_EMBEDDED_TESTS ?= y
 CFG_WITH_STATS ?= y
 
